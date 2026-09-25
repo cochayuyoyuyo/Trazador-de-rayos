@@ -97,6 +97,7 @@ color pixel = v3(0,0,0);
 
 
 
+
 		pixel = vec3_scale(pixel, pixel_samples_scale);
                 
 		write_color(stdout, pixel);
