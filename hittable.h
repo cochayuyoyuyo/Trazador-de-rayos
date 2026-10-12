@@ -1,0 +1,113 @@
+#ifndef HITTABLE_H
+#define HITTABLE_H
+
+#include "ray.h"
+
+
+// Aqui solo necesitamos poder guardar en puntero a el.
+struct material;
+
+// Data de un imapacto rayo-superficie
+typedef struct {
+
+	point3 p;	// punto impacto
+	vec3 normal;	// normal
+	double t;	// parametro del rayo de impacto
+	int front_face;	// 1 si el rayo llega por fuera de la superficie
+	const struct material *mat;	//material del objeto de golpeado
+} hit_record; 
+
+// Ajusta la normal para que siempre apunte "contra" el rayo, y recuerda
+// si golpeamos la cara exterior o interior.
+static inline void set_face_normal(hit_record *rec, ray r, vec3 outward_normal){
+	rec->front_face = vec3_dot(r.dir, outward_normal) < 0;
+	rec->normal = rec->front_face ? outward_normal : vec3_neg(outward_normal);
+}
+
+// Una esfera: centro, radio y su material
+typedef struct { 
+	point3 center;
+	double radius;
+	const struct material *mat;
+} sphere; 
+
+
+// ¿El rayo golpea la esfera dentro del intervalo (ray_tmin, ray_tmax)?
+// Si es asi, rellena +rec y devuelve 1.
+static int sphere_hit(sphere s, ray r, double ray_tmin, double  ray_tmax, hit_record *rec) {
+	vec3 oc = vec3_sub(s.center, r.orig);
+	double a = vec3_length_squared(r.dir);
+	double h = vec3_dot(r.dir, oc);
+	double c = vec3_length_squared(oc) - s.radius * s.radius;
+
+	double discriminant = h*h - a*c;
+	if (discriminant < 0) return 0;
+	double sqrtd = sqrt(discriminant);
+
+
+	// Buscamos la raiz mas cercana dentro del rango valido.
+	double root = (h - sqrtd) / a;
+	if (root <= ray_tmin || root >= ray_tmax) {
+		root = (h + sqrtd) / a;
+		if (root <= ray_tmin || root >= ray_tmax) return 0;
+}
+
+
+	rec-> t = root;
+	rec-> p = ray_at(r, root);
+	vec3 outward_normal = vec3_div(vec3_sub(rec->p, s.center), s.radius);
+	set_face_normal(rec, r, outward_normal);
+	rec->mat = s.mat;
+	return 1;
+
+}
+
+// El "mundo": un array de esferas y su cantidad.
+typedef struct { 
+
+	sphere *spheres;
+	int count;
+} hittable_list;
+
+static int world_hit(hittable_list world, ray r,
+			double ray_tmin, double ray_tmax, hit_record *rec){
+
+	hit_record temp;
+	int hit_anything = 0;
+	double closest = ray_tmax;
+
+	for (int i = 0; i < world.count; i++) {
+
+		if (sphere_hit(world.spheres[i], r, ray_tmin, closest, &temp)) {
+
+			hit_anything = 1;
+			closest = temp.t;	// aceptamos impactos cercanos
+			*rec = temp;	// aceptamos el mejor imapcto
+		}
+	}
+	return hit_anything;
+}
+
+#endif
+
+
+
+
+
+
+
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
