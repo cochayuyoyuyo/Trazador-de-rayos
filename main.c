@@ -29,7 +29,7 @@ ray get_ray(int i, int j, point3 pixel100_loc,
 }
 
 
-<<<<<<< HEAD
+
 color ray_color(ray r, int depth, hittable_list world) {
     if (depth <= 0)
 	return v3(0, 0, 0);
@@ -43,13 +43,7 @@ color ray_color(ray r, int depth, hittable_list world) {
         return vec3_scale(ray_color(bounced, depth -1, world), 0.5);
   
        
-=======
-color ray_color(ray r, hittable_list world) {
-    hit_record rec;
-    if (world_hit(world, r, 0.0, INFINITY, &rec)) {
-        // La normal esta en [-1,1]; la mapeamos a un color [0,1]
-        return vec3_scale(vec3_add(rec.normal, v3(1,1,1)), 0.5);
->>>>>>> 8d9b4bb0d6daaf0c0be7080777fa1957a08c198a
+
     }
     vec3 unit_direction = vec3_unit(r.dir);
     double a = 0.5 * (unit_direction.y + 1.0);
@@ -98,10 +92,7 @@ color pixel = v3(0,0,0);
     hittable_list world = { spheres, 2 };
 
     // --- Render ---
-<<<<<<< HEAD
     int max_depth = 50;
-=======
->>>>>>> 8d9b4bb0d6daaf0c0be7080777fa1957a08c198a
     printf("P3\n%d %d\n255\n", image_width, image_height);
     for (int j = 0; j < image_height; j++) {
         fprintf(stderr, "\rFilas restantes: %d ", image_height - j);
@@ -111,20 +102,11 @@ color pixel = v3(0,0,0);
 
 		for (int s = 0; s < samples_per_pixel; s++){
 		ray r = get_ray(i, j, pixel100_loc, pixel_delta_u, pixel_delta_v, camera_center);
-<<<<<<< HEAD
 		pixel = vec3_add(pixel, ray_color(r, max_depth, world));
-=======
-		pixel = vec3_add(pixel, ray_color(r, world));
->>>>>>> 8d9b4bb0d6daaf0c0be7080777fa1957a08c198a
+
 	}
 
 
-
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 8d9b4bb0d6daaf0c0be7080777fa1957a08c198a
 		pixel = vec3_scale(pixel, pixel_samples_scale);
                 
 		write_color(stdout, pixel);
