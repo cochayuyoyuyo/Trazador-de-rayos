@@ -3,16 +3,12 @@
 
 #include <math.h>
 #include <stdlib.h> // rand, RAND_MAX utilizados para generar numeros aleatorios
-<<<<<<< HEAD
 #include "vec3.h"
 #define PI 3.1415926535897932385
-
- 
-=======
-
 #define PI 3.1415926535897932385
 
->>>>>>> 8d9b4bb0d6daaf0c0be7080777fa1957a08c198a
+
+
 static inline double degrees_to_radians(double degrees) {
 	return degrees * PI / 180.0;
 }
@@ -39,7 +35,6 @@ static inline double clamp(double x, double min, double max) {
 	return x;
 }
 
-<<<<<<< HEAD
 
 // Vector con componentes aleatorios
 static inline vec3 vec3_random_range(double min, double max) {
@@ -75,24 +70,5 @@ static inline int vec3_near_zero(vec3 v) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-=======
->>>>>>> 8d9b4bb0d6daaf0c0be7080777fa1957a08c198a
 #endif
-
-
-
-
-
-
 
