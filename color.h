@@ -5,6 +5,7 @@
 #include "vec3.h"
 #include "rtweekend.h"
 
+
 //  Escribe un pixel en formato PPM (tres enteros 0..255) en el flujo "out"
 static void write_color(FILE *out, color pixel_color) { 
 	double r = pixel_color.x;
