@@ -7,6 +7,8 @@
 #include "rtweekend.h"
 #include "material.h"
 
+
+
 // Construye un rayo hacia un punto aleatorio dentro del pixel (i,j).
 // pixel100_loc, pixel_delta_u/v y camera center son variables de la camara
 ray get_ray(int i, int j, point3 pixel100_loc,
