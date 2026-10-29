@@ -69,6 +69,32 @@ static inline int vec3_near_zero(vec3 v) {
 
 
 
+static inline vec3 reflect(vec3 v, vec3 n) {
+	return vec3_sub(v, vec3_scale(n, 2 * vec3_dot(v, n)));
+}
+
+
+
+static inline vec3 refract (vec3 uv, vec3 n, double etai_over_etat) {
+	double cos_theta = fmin(vec3_dot(vec3_neg(uv), n), 1.0);
+	vec3 r_out_perp = vec3_scale(vec3_add(uv, vec3_scale(n, cos_theta)), etai_over_etat);
+	double k = 1.0 - vec3_length_squared(r_out_perp);
+	vec3 r_out_parallel = vec3_scale(n, -sqrt(fabs(k)));
+	return vec3_add(r_out_perp, r_out_parallel);
+}
+
+
+
+
+// Aproximacion de Schlick: fraccion reflejada
+static inline double reflectance(double cosine, double refraction_index) {
+	double r0 = r0 + r0;
+	return r0 + (1 - r0) * pow(1 - cosine, 5);
+}
+
+
+
+
 
 #endif
 

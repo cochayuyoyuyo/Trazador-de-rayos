@@ -5,11 +5,7 @@
 #include <math.h>
 #include "hittable.h"
 #include "rtweekend.h"
-<<<<<<< HEAD
 #include "material.h"
-=======
-
->>>>>>> 6a4b05c31b1f9638134b32fc74b140d823f2b02f
 
 // Construye un rayo hacia un punto aleatorio dentro del pixel (i,j).
 // pixel100_loc, pixel_delta_u/v y camera center son variables de la camara
@@ -40,7 +36,6 @@ color ray_color(ray r, int depth, hittable_list world) {
 
     hit_record rec;
     if (world_hit(world, r, 0.001, INFINITY, &rec)) {
-<<<<<<< HEAD
 	ray scattered;
 	color attenuation;
 	if (scatter(rec.mat, r, rec, &attenuation, &scattered)) {
@@ -53,17 +48,6 @@ color ray_color(ray r, int depth, hittable_list world) {
        
 
    
-=======
-	// Nueva direccion difusa: normal + vector unitario aleatorio
-	vec3 direction = vec3_add(rec.normal, random_unit_vector());
-	ray bounced = {rec.p, direction};
-        // La normal esta en [-1,1]; la mapeamos a un color [0,1]
-        return vec3_scale(ray_color(bounced, depth -1, world), 0.5);
-  
-       
-
-    }
->>>>>>> 6a4b05c31b1f9638134b32fc74b140d823f2b02f
     vec3 unit_direction = vec3_unit(r.dir);
     double a = 0.5 * (unit_direction.y + 1.0);
     return vec3_add(vec3_scale(v3(1,1,1), 1.0 - a),
@@ -104,32 +88,26 @@ color pixel = v3(0,0,0);
         vec3_add(viewport_upper_left,
                  vec3_scale(vec3_add(pixel_delta_u, pixel_delta_v), 0.5));
 
-<<<<<<< HEAD
 
   
    // Materiales (deben sobrevivir a todo render)
    material mat_ground = { LAMBERTIAN, v3(0.0, 0.8, 0.0), 0, 0};
    material mat_center = { LAMBERTIAN, v3(0.1, 0.2, 0.5), 0, 0};
-   material mat_left = { METAL, v3(0.8, 0.8, 0.8), 0.3, 0};
-   material mat_right = {METAL, v3(0.8, 0.6, 0.2), 1.0, 0}; 
-
-
+   material mat_left = { DIELECTRIC, v3(0, 0, 0), 0, 1.50};
+   material mat_bubble = {DIELECTRIC, v3(0, 0, 0), 0, 1.0 / 1.50}; 
+   material mat_right = { METAL, v3(0, 0.2,0.6 ), 1.0, 0};
+  
 
 // Esferas: cada una apunta a su material con el
     sphere spheres[] = {
         { v3(0,  -100.5, -1), 100.0, &mat_ground },
         { v3(0, -0, -1.2),  0.5, &mat_center },
 	{ v3(-1, 0, -1), 0.5, &mat_left },
+	{ v3(-1, 0, -1), 0.4, &mat_bubble },
 	{ v3(1, 0, -1), 0.5, &mat_right},
+	
     };
-    hittable_list world = { spheres, 4 };
-=======
-    sphere spheres[] = {
-        { v3(0,      0, -1),   0.5, NULL },
-        { v3(0, -100.5, -1), 100.0, NULL },
-    };
-    hittable_list world = { spheres, 2 };
->>>>>>> 6a4b05c31b1f9638134b32fc74b140d823f2b02f
+    hittable_list world = { spheres, 5 };
 
     // --- Render ---
     int max_depth = 50;
@@ -155,3 +133,4 @@ color pixel = v3(0,0,0);
     fprintf(stderr, "\r¡Listo!                 \n");
     return 0;
 }
+
