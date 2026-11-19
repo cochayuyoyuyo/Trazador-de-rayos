@@ -45,26 +45,35 @@ int main(void) {
    cam.max_depth= 50;
    cam.vfov = 20;
 // Posicion de camara
-   cam.lookfrom = v3(-2, 2, 1);
+
    cam.lookat = v3(0, 0, -1);
    cam.vup = v3(0, 1, 0);
    
    
-      // Modificacion
-   // w -> writte  
+// Modificacion
+// w -> writte  
    FILE* f;
    char nombre_archivo[20];
-   for(int i = 0; i<= 20; i++) {
+   
+   for(int i = 1; i< 10; i++) {
    	snprintf(nombre_archivo, sizeof(nombre_archivo),
-   		"imagen_%03.ppm", i),
+   		"imagen_%05d.ppm", i);
+   		
+   	cam.lookfrom = v3(1-i, 3*i, 1);
+   	
+  
+   	
+   	   	
+   	
    	f = fopen(nombre_archivo, "w");
+   	
+   	
+   	
+   	 camera_render(f, &cam, world);
+   	
    	}
    
-   
-
-
-   camera_render(f, &cam, world);
-   
+  
    fclose(f);
    return 0;
 
