@@ -10,6 +10,13 @@
 
 
 int main(void) { 
+   
+   
+   
+   
+   
+
+
    // Materiales 
    material mat_ground = { LAMBERTIAN, v3(0.0, 0.8, 0.0), 0, 0};
    material mat_center = { LAMBERTIAN, v3(0.1, 0.2, 0.5), 0, 0};
@@ -37,11 +44,28 @@ int main(void) {
    cam.samples_per_pixel = 100;
    cam.max_depth= 50;
    cam.vfov = 20;
+// Posicion de camara
    cam.lookfrom = v3(-2, 2, 1);
    cam.lookat = v3(0, 0, -1);
    cam.vup = v3(0, 1, 0);
+   
+   
+      // Modificacion
+   // w -> writte  
+   FILE* f;
+   char nombre_archivo[20];
+   for(int i = 0; i<= 20; i++) {
+   	snprintf(nombre_archivo, sizeof(nombre_archivo),
+   		"imagen_%03.ppm", i),
+   	f = fopen(nombre_archivo, "w");
+   	}
+   
+   
 
-   camera_render(&cam, world);
+
+   camera_render(f, &cam, world);
+   
+   fclose(f);
    return 0;
 
 }
