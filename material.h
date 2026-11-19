@@ -48,6 +48,7 @@ static int scatter(const material *mat, ray r_in, hit_record rec,
 		scattered->orig = rec.p;
 		scattered->dir = reflected;
 		*attenuation = mat->albedo;
+		// Si el rayo difuminado se hunde bajo la superficie, se absorbe
 		return vec3_dot(scattered->dir, rec.normal) > 0;
 
 	}
@@ -77,13 +78,15 @@ static int scatter(const material *mat, ray r_in, hit_record rec,
 
 
 
-		return 0;
+	
 
 
 	}
 	return 0;
+	
+}
 
-} 
+
 #endif
 
 

@@ -111,13 +111,13 @@ return vec3_add(vec3_scale(v3(1,1,1), 1.0 - a),
 
 
 // Renderiza el mundo escribe la imagen ppm por stdout
-static void camera_render(camera *cam, hittable_list world) {
+static void camera_render(FILE* f, camera *cam, hittable_list world) {
 	camera_initialize(cam);
 
 
 
 
-	printf("P3\n%d %d\n255\n", cam->image_width, cam->image_height);
+	fprintf(f, "P3\n%d %d\n255\n", cam->image_width, cam->image_height);
     		for (int j = 0; j < cam->image_height; j++) {
         		fprintf(stderr, "\rFilas restantes: %d ", cam->image_height - j);
        		 	fflush(stderr);
@@ -130,7 +130,7 @@ static void camera_render(camera *cam, hittable_list world) {
 	}
 
 
-		write_color(stdout, vec3_scale(pixel, cam->pixel_samples_scale));
+		write_color(f, vec3_scale(pixel, cam->pixel_samples_scale));
         }
     }
     fprintf(stderr, "\r¡Listo!                 \n");
