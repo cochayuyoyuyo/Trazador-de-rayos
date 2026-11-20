@@ -39,42 +39,44 @@ int main(void) {
 
 // Camara: fija los parametros y renderiza
    camera cam;
+   cam.defocus_angle = 10.0;
+   cam.focus_dist = 3.4;
    cam.aspect_ratio = 16.0/9.0;
    cam.image_width = 400;
    cam.samples_per_pixel = 100;
    cam.max_depth= 50;
    cam.vfov = 20;
 // Posicion de camara
-
+   cam.lookfrom = v3(-2, 2, 1);
    cam.lookat = v3(0, 0, -1);
    cam.vup = v3(0, 1, 0);
    
    
 // Modificacion
 // w -> writte  
-   FILE* f;
-   char nombre_archivo[20];
+//   FILE* f;
+//   char nombre_archivo[20];
    
-   for(int i = 1; i< 10; i++) {
-   	snprintf(nombre_archivo, sizeof(nombre_archivo),
-   		"imagen_%05d.ppm", i);
+//   for(int i = 1; i< 10; i++) {
+//   	snprintf(nombre_archivo, sizeof(nombre_archivo),
+//   		"imagen_%05d.ppm", i);
    		
-   	cam.lookfrom = v3(1-i, 3*i, 1);
+//   	cam.lookfrom = v3(1-i, 3*i, 1);
    	
   
    	
    	   	
    	
-   	f = fopen(nombre_archivo, "w");
+//   	f = fopen(nombre_archivo, "w");
+//   	 camera_render(f, &cam, world);
+
+
+	camera_render(&cam, world);
    	
    	
-   	
-   	 camera_render(f, &cam, world);
-   	
-   	}
    
   
-   fclose(f);
+//  fclose(f);
    return 0;
 
 }
